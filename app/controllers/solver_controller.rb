@@ -39,8 +39,13 @@ class SolverController < ApplicationController
     @X.each_with_index { |_x, i| sum += (@X[i] * @Y[i] - @X_vec * @Y_vec) }
     @r_v = ((sum * 1 / @N) / (@deviation_X * @deviation_Y)).roundf(4)
     # Task 7
-    @t_v = (@r_v * (@N - 2)**0.5) / (1 - @r_v**2)**0.5
+    @t_v = ((@r_v * (@N - 2)**0.5) / (1 - @r_v**2)**0.5).roundf(3)
     @t_alfa = T_ALFA
+    # Task 8
+    @y_a = (@r_v * (@deviation_Y / @deviation_X)).roundf(3)
+    @y_b = (@Y_vec - @r_v * @X_vec * (@deviation_Y / @deviation_X)).roundf(3)
+    @x_a = (@r_v * (@deviation_X / @deviation_Y)).roundf(3)
+    @x_b = (@X_vec - @r_v * @Y_vec * (@deviation_X / @deviation_Y)).roundf(3)
     render 'solve'
   end
 end
