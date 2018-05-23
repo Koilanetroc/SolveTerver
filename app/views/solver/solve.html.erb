@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Решение</title>
+  </head>
+  <body>
+    <div class="container">
+      <div class="col">
+        Количество иксов = <%= @X.size %> <br>
+        Количество игреков = <%= @Y.size %> <br>
+        Шаг = <%= @step %> <br>
+      </div>
+    </div>
+    <div class="container">
+      <table class="table table-striped">
+        <thead class="thead-light">
+          <th scope="col">Номер интервала</th>
+          <th scope="col">Левая границы</th>
+          <th scope="col">Правая граница</th>
+        </thead>
+        <tbody>
+          <% @intervals.each_with_index do |interval,i| %>
+           <tr>
+             <td scope="col"><%= i %></td>
+             <td scope="col"><%= interval[:left] %></td>
+             <td scope="col"><%= interval[:right] %></td>
+           </tr>
+          <%end%>
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>
