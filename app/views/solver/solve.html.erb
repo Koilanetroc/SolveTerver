@@ -15,8 +15,7 @@
       <table class="table table-striped table-bordered">
         <thead class="thead-light">
           <th scope="col">Номер интервала</th>
-          <th scope="col">Левая границы</th>
-          <th scope="col">Правая граница</th>
+          <th scope="col">Интервалы</th>
           <th scope="col">Частоты</th>
           <th scope="col">Wi</th>
           <th scope="col">Wi/h</th>
@@ -25,8 +24,7 @@
           <% @intervals_1.each_with_index do |interval,i| %>
            <tr>
              <td scope="col"><%= i %></td>
-             <td scope="col"><%= interval[:left] %></td>
-             <td scope="col"><%= interval[:right] %></td>
+             <td scope="col">(<%= interval[:left] %>;<%= interval[:right] %>]</td>
              <td scope="col"><%= interval[:n_i] %></td>
              <td scope="col"><%= interval[:w_i] %></td>
              <td scope="col"><%= interval[:w_i_h] %></td>
@@ -97,8 +95,7 @@
             <table class="table table-striped table-bordered text-center">
               <thead class="thead-light">
                 <th scope="col">Номер интервала</th>
-                <th scope="col">Левая границы</th>
-                <th scope="col">Правая граница</th>
+                <th scope="col">Интервалы</th>
                 <th scope="col">Эмперические частоты</th>
                 <th scope="col">Вероятность</th>
                 <th scope="col">Теоретическая вероятность</th>
@@ -108,8 +105,7 @@
                 <% @intervals_3.each_with_index do |interval,i| %>
                  <tr>
                    <td scope="col"><%= i %></td>
-                   <td scope="col"><%= interval[:left] %></td>
-                   <td scope="col"><%= interval[:right] %></td>
+                   <td scope="col">(<%= interval[:left] %>;<%= interval[:right] %>]</td>
                    <td scope="col"><%= interval[:n_i] %></td>
                    <td scope="col"><%= interval[:p_i] %></td>
                    <td scope="col"><%= interval[:n_p_i] %></td>
