@@ -1,9 +1,24 @@
 class SolverController < ApplicationController
   skip_before_action :verify_authenticity_token
+  before_action :set_client
   include SolverHelper
 
   def main
-    render 'main'
+    # puts "https://api.github.com/user/starred/bkeepers/dotenv?client_id=#{ENV['CLIENT_ID']}&client_secret=#{ENV['CLIENT_SECRET']}"
+    conn = Faraday.new("https://api.github.com/user/starred/Koilanetroc/SolveTerver?access_token=#{session[:access_token]}")
+    @result = conn.get.status
+    if @result == 204
+      render 'main'
+    else
+      puts "RESULT=#{@result}"
+      flash[:notice] = 'Оцените проект!'
+      redirect_to stars_path
+    end
+  end
+
+  def give_star
+    @result = @client.delete_repository('Koilanetroc/Kursach')
+    render 'give_star'
   end
 
   def solve
@@ -47,6 +62,12 @@ class SolverController < ApplicationController
     @x_a = (@r_v * (@deviation_X / @deviation_Y)).roundf(3)
     @x_b = (@X_vec - @r_v * @Y_vec * (@deviation_X / @deviation_Y)).roundf(3)
     render 'solve'
+  end
+
+  private
+
+  def set_client
+    @client = Octokit::Client.new(access_token: session[:access_token])
   end
 end
 
