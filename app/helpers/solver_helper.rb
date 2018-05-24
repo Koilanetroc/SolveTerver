@@ -76,6 +76,25 @@ module SolverHelper
     new_intervals
   end
 
+  def compute_frequencies(_intervals,n,x,step)
+  _intervals.each do |_interval|
+    n_i = 0
+    x.each do |v|
+      if _interval[:left].to_s.eql? '-inf'
+        n_i += 1 if v <= _interval[:right]
+      elsif _interval[:right].to_s.eql? 'inf'
+        n_i += 1 if v > _interval[:left]
+      else
+        n_i += 1 if (v > _interval[:left]) && (v <= _interval[:right])
+      end
+    end
+    _interval[:n_i] = n_i
+    _interval[:w_i] = n_i / n.to_f
+    _interval[:w_i_h] = (n_i / n.to_f) / step.to_f
+  end
+  _intervals
+  end
+
   def compute_frequencies2(_intervals, x, n)
     _intervals.each do |_interval|
       n_i = 0

@@ -32,14 +32,15 @@ class SolverController < ApplicationController
       render 'main'
     else
       @N = @X.size
-      @step = if params['step'].nil?
+      @step = if params['step'].to_s.empty?
                 ((@X.max - @X.min) / (1 + 3.322 * Math.log10(100))).roundf(3)
               else
                 params['step'].to_f
               end
       @step = 1.0 if @step < 0.1
       # Task 2
-      @intervals_1 = compute_intervals(@X, @step)
+      intervals_1 = compute_intervals(@X, @step)
+      @intervals_1 = compute_frequencies(intervals_1,x,n,@step)
       temp_intervals = compute_intervals(@X, @step)
       # Task 3
       @X_vec = (@X.inject(0) { |sum, x| sum + x } / @N.to_f).roundf(3)

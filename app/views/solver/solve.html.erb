@@ -17,6 +17,9 @@
           <th scope="col">Номер интервала</th>
           <th scope="col">Левая границы</th>
           <th scope="col">Правая граница</th>
+          <th scope="col">Частоты</th>
+          <th scope="col">Wi</th>
+          <th scope="col">Wi/h</th>
         </thead>
         <tbody>
           <% @intervals_1.each_with_index do |interval,i| %>
@@ -24,6 +27,9 @@
              <td scope="col"><%= i %></td>
              <td scope="col"><%= interval[:left] %></td>
              <td scope="col"><%= interval[:right] %></td>
+             <td scope="col"><%= interval[:n_i] %></td>
+             <td scope="col"><%= interval[:w_i] %></td>
+             <td scope="col"><%= interval[:w_i_h] %></td>
            </tr>
           <%end%>
         </tbody>
