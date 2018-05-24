@@ -1,12 +1,13 @@
-
-    <div class="col text-center">
-      <h1>Задание 1</h1>
-    </div>
-    <div class="container-fluid">
-      <div class="col">
-        Количество иксов = <%= @X.size %> <br>
-        Количество игреков = <%= @Y.size %> <br>
-        Шаг = <%= @step %> <br>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 1</h1>
+        </div>
+        <div class="card-body">
+          Количество иксов = <%= @X.size %> <br>
+          Количество игреков = <%= @Y.size %> <br>
+          Шаг = <%= @step %> <br> <strong>Рекомендую поиграться с размером шага, от него зависит точность вычислений</strong> <br>
+        </div>
       </div>
     </div>
     <div class="container-fluid text-center">
@@ -18,7 +19,7 @@
           <th scope="col">Правая граница</th>
         </thead>
         <tbody>
-          <% @intervals.each_with_index do |interval,i| %>
+          <% @intervals_1.each_with_index do |interval,i| %>
            <tr>
              <td scope="col"><%= i %></td>
              <td scope="col"><%= interval[:left] %></td>
@@ -28,106 +29,143 @@
         </tbody>
       </table>
     </div>
-    <div class="col text-center">
-      <h1>Задание 2</h1>
-      <div class="container">
-        <div class="col text-center">
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 2</h1>
+        </div>
+        <div class="card-body">
           Тут будет гистограмка
         </div>
       </div>
     </div>
-    <div class="col text-center">
-      <h1>Задание 3</h1>
-      <h2>Числовые характеристики</h2>
-      Выборочное среднее X = <%= @X_vec %> <br>
-      Выборочное среднее Y = <%= @Y_vec %> <br>
-      Исправленная дисперсия X = <%= @fixed_dispersion_X %> <br>
-      Исправленная дисперсия Y = <%= @fixed_dispersion_Y %> <br>
-      Среднее квадратическое отклонение X = <%= @deviation_X %> <br>
-      Среднее квадратическое отклонение Y = <%= @deviation_Y %> <br>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header"><h1>Задание 3</h1></div>
+        <div class="card-body">
+          <h2>Числовые характеристики</h2>
+          Выборочное среднее X = <%= @X_vec %> <br>
+          Выборочное среднее Y = <%= @Y_vec %> <br>
+          Исправленная дисперсия X = <%= @fixed_dispersion_X %> <br>
+          Исправленная дисперсия Y = <%= @fixed_dispersion_Y %> <br>
+          Среднее квадратическое отклонение X = <%= @deviation_X %> <br>
+          Среднее квадратическое отклонение Y = <%= @deviation_Y %> <br>
+        </div>
     </div>
-    <div class="col text-center">
-      <h1>Задание 4</h1>
-      <h3>Проверка гипотезы о нормальном распределении по Хи квадрат Пирсона</h3>
-      <div class="container-fluid text-center">
-        <h3>Таблица веротностей</h3>
-        <table class="table table-striped table-bordered">
-          <thead class="thead-light">
-            <th scope="col">Номер интервала</th>
-            <th scope="col">Левая границы</th>
-            <th scope="col">Правая граница</th>
-            <th scope="col">Вероятность</th>
-          </thead>
-          <tbody>
-            <% @intervals.each_with_index do |interval,i| %>
-             <tr>
-               <td scope="col"><%= i %></td>
-               <td scope="col"><%= interval[:left] %></td>
-               <td scope="col"><%= interval[:right] %></td>
-               <td scope="col"><%= interval[:laplas] %></td>
-             </tr>
-            <%end%>
-          </tbody>
-        </table>
+    </div>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 4</h1>
+          <h3>Проверка гипотезы о нормальном распределении по Хи квадрат Пирсона</h3>
+        </div>
+        <div class="card-body">
+          <div class="container-fluid">
+            <h3>Таблица веротностей</h3>
+            <table class="table table-striped table-bordered text-center">
+              <thead class="thead-light">
+                <th scope="col">Номер интервала</th>
+                <th scope="col">Левая границы</th>
+                <th scope="col">Правая граница</th>
+                <th scope="col">Вероятность</th>
+              </thead>
+              <tbody>
+                <% @intervals_3.each_with_index do |interval,i| %>
+                 <tr>
+                   <td scope="col"><%= i %></td>
+                   <td scope="col"><%= interval[:left] %></td>
+                   <td scope="col"><%= interval[:right] %></td>
+                   <td scope="col"><%= interval[:laplas] %></td>
+                 </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          <h4>Проверяем условие npi > 10</h4>
+          <% @intervals_2.each_with_index do |interval,i| %>
+            <%= interval[:laplas] * @N > 10 ? "#{(interval[:laplas] * @N).roundf(3)} > 10" : "#{(interval[:laplas] * @N).roundf(3)} < 10" %> <br>
+          <%end%>
+          <h4>Объединяем интервалы, теоретические частоты которых меньше 10</h4>
+          <div class="container-fluid">
+            <h3>Таблица объединенных интервалов</h3>
+            <table class="table table-striped table-bordered text-center">
+              <thead class="thead-light">
+                <th scope="col">Номер интервала</th>
+                <th scope="col">Левая границы</th>
+                <th scope="col">Правая граница</th>
+                <th scope="col">Эмперические частоты</th>
+                <th scope="col">Вероятность</th>
+                <th scope="col">Теоретическая вероятность</th>
+                <th scope="col">Критерий Пирсона</th>
+              </thead>
+              <tbody>
+                <% @intervals_3.each_with_index do |interval,i| %>
+                 <tr>
+                   <td scope="col"><%= i %></td>
+                   <td scope="col"><%= interval[:left] %></td>
+                   <td scope="col"><%= interval[:right] %></td>
+                   <td scope="col"><%= interval[:n_i] %></td>
+                   <td scope="col"><%= interval[:p_i] %></td>
+                   <td scope="col"><%= interval[:n_p_i] %></td>
+                   <td scope="col"><%= interval[:xi_pirsona] %></td>
+                 </tr>
+                <%end%>
+              </tbody>
+            </table>
+          </div>
+          Критическая точка = <%= @xi_k %> <br>
+          Хи квадрат выборочное(сумма тех из таблицы) = <%= @xi_pirsona %> <br>
+          Так как Хи квадрат выборочное меньше критической точки, то гипотеза о нормальном распределении случайной величины Х принимается.
+        </div>
       </div>
-      <h4>Проверяем условие npi > 10</h4>
-      <% @intervals_2.each_with_index do |interval,i| %>
-        <%= interval[:laplas] * @N > 10 ? "#{(interval[:laplas] * @N).roundf(3)} > 10" : "#{(interval[:laplas] * @N).roundf(3)} < 10" %> <br>
-      <%end%>
-      <h4>Объединяем интервалы, теоретические частоты которых меньше 10</h4>
-      <div class="container-fluid text-center">
-        <h3>Таблица объединенных интервалов</h3>
-        <table class="table table-striped table-bordered">
-          <thead class="thead-light">
-            <th scope="col">Номер интервала</th>
-            <th scope="col">Левая границы</th>
-            <th scope="col">Правая граница</th>
-            <th scope="col">Эмперические частоты</th>
-            <th scope="col">Вероятность</th>
-            <th scope="col">Теоретическая вероятность</th>
-            <th scope="col">Критерий Пирсона</th>
-          </thead>
-          <tbody>
-            <% @intervals_3.each_with_index do |interval,i| %>
-             <tr>
-               <td scope="col"><%= i %></td>
-               <td scope="col"><%= interval[:left] %></td>
-               <td scope="col"><%= interval[:right] %></td>
-               <td scope="col"><%= interval[:n_i] %></td>
-               <td scope="col"><%= interval[:p_i] %></td>
-               <td scope="col"><%= interval[:n_p_i] %></td>
-               <td scope="col"><%= interval[:xi_pirsona] %></td>
-             </tr>
-            <%end%>
-          </tbody>
-        </table>
+    </div>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 5</h1>
+        </div>
+        <div class="card-body">
+          <h4>Доверительный интервал 1</h4>
+          <%= "#{(@X_vec - @beta).roundf(3)} < a < #{(@X_vec + @beta).roundf(3)}" %>
+          <h4>Доверительный интервал 2</h4>
+          <%= "#{(@deviation_X * (1 - @q)).roundf(3)} < sigma < #{(@deviation_X * (1 + @q)).roundf(3)}" %>
+        </div>
       </div>
-      Критическая точка = <%= @xi_k %> <br>
-      Хи квадрат выборочное(сумма тех из таблицы) = <%= @xi_pirsona %> <br>
-      Так как Хи квадрат выборочное меньше критической точки, то гипотеза о нормальном распределении случайной величины Х принимается.
     </div>
-    <div class="col text-center">
-      <h1>Задание 5</h1>
-      <h4>Доверительный интервал 1</h4>
-      <%= "#{(@X_vec - @beta).roundf(3)} < a < #{(@X_vec + @beta).roundf(3)}" %>
-      <h4>Доверительный интервал 2</h4>
-      <%= "#{(@deviation_X * (1 - @q)).roundf(3)} < sigma < #{(@deviation_X * (1 + @q)).roundf(3)}" %>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 6</h1>
+        </div>
+        <div class="card-body">
+          <h4>Выборочный коэффициент корреляции</h4>
+          Коэффициент корреляции = <%= @r_v %>
+        </div>
+      </div>
     </div>
-    <div class="col text-center">
-      <h1>Задание 6</h1>
-      <h4>Выборочный коэффициент корреляции</h4>
-      Коэффициент корреляции = <%= @r_v %>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 7</h1>
+        </div>
+        <div class="card-body">
+          <h4>Значимость найденного коэффициента корреляции</h4>
+          Значимость = <%= @t_v %> <br>
+          t с альфой = <%= @t_alfa %> <br>
+          Так как значимость по модулю больше t с альфой, то то выборочный коэффициент корреляции значимо отличается от нуля, т. е. можно считать (с надежностью γ = 1−α = 1−0, 05 = 0, 95 ), что случайные величины X и Y коррелированы.
+        </div>
+      </div>
+
     </div>
-    <div class="col text-center">
-      <h1>Задание 7</h1>
-      <h4>Значимость найденного коэффициента корреляции</h4>
-      Значимость = <%= @t_v %> <br>
-      t с альфой = <%= @t_alfa %> <br>
-      Так как значимость по модулю больше t с альфой, то то выборочный коэффициент корреляции значимо отличается от нуля, т. е. можно считать (с надежностью γ = 1−α = 1−0, 05 = 0, 95 ), что случайные величины X и Y коррелированы.
-    </div>
-    <div class="col text-center">
-      <h1>Задание 8</h1>
-      <h4>Уравнение выборочной прямой среднеквдратической регрессии Y на X</h4>
-      y = <%= @y_a %>x + <%= @y_b %> <br>
-      x = <%= @x_a %>y + <%= @x_b %>
+    <div class="col">
+      <div class="card mt-4">
+        <div class="card-header">
+          <h1>Задание 8</h1>
+        </div>
+        <div class="card-body">
+          <h4>Уравнение выборочной прямой среднеквдратической регрессии Y на X</h4>
+          y = <%= @y_a %>x + <%= @y_b %> <br>
+          x = <%= @x_a %>y + <%= @x_b %>
+        </div>
+      </div>
     </div>
